@@ -13,17 +13,33 @@ namespace MakeCodeBetter.Business
             _userRepository = userRepository;
         }
 
-        public async Task<UserModel> Get(int id)
+        public async Task<UserModel> GetAsync(int id)
         {
-            var userEntity = await _userRepository.Get(id);
-            var birthday = Convert(userEntity.Birthday);
-            var userModel = new UserModel()
+            try
             {
-                Id = userEntity.Id,
-                Birthday = birthday,
-                Age = GetAge(birthday)
-            };
-            return userModel;
+                var userEntity = await _userRepository.GetAsync(id);
+                var birthday = Convert(userEntity.Birthday);
+                var userModel = new UserModel()
+                {
+                    Id = userEntity.Id,
+                    Birthday = birthday,
+                    Age = GetAge(birthday)
+                };
+                return userModel;
+            }
+            catch (Exception e)
+            {
+                if (e is DatabaseConnectionNotAvailableException databaseConnectionNotAvailableException)
+                {
+                    Console.WriteLine("log useful exception information here");
+                    throw new UserServiceNotAvailableException();
+                }
+                else
+                {
+                    Console.WriteLine("log useful exception information here");
+                    throw e;
+                }
+            }
         }
 
         private DateTime Convert(string birthdayString)
@@ -37,6 +53,7 @@ namespace MakeCodeBetter.Business
 
         private int GetAge(DateTime birthday)
         {
+            if (birthday == DateTime.MinValue) return -1;
             var today = DateTime.Today;
             var age = today.Year - birthday.Year;
             if (birthday.Date > today.AddYears(-age)) age--;

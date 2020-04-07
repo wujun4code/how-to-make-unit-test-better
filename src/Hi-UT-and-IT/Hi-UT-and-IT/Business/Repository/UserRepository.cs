@@ -7,7 +7,7 @@ namespace MakeCodeBetter
 {
     public class UserRepository : IUserRepository
     {
-        public Task<UserEntity> Get(int id)
+        public Task<UserEntity> GetAsync(int id)
         {
             throw new NotImplementedException();
         }

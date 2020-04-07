@@ -7,6 +7,6 @@ namespace MakeCodeBetter
 {
     public interface IUserRepository
     {
-        Task<UserEntity> Get(int id);
+        Task<UserEntity> GetAsync(int id);
     }
 }

@@ -8,7 +8,7 @@ namespace MakeCodeBetter
         [Fact]
         public void Test1()
         {
-
+            
         }
     }
 }

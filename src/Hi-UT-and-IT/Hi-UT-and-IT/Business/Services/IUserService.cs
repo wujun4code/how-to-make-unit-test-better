@@ -7,6 +7,6 @@ namespace MakeCodeBetter
 {
     public interface IUserService
     {
-        Task<UserModel> Get(int id);
+        Task<UserModel> GetAsync(int id);
     }
 }
